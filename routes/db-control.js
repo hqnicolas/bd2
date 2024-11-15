@@ -148,10 +148,12 @@ router.get('/dml-statements', async (req, res) => {
 // Executar um DML statement
 router.post('/dml-statements/execute', async (req, res) => {
   try {
+    // Log the request body
+    logger.info(`Request body: ${JSON.stringify(req.body)}`);
     const { statement } = req.body;
     logger.info(`Executing DML statement: ${statement}`);
     const result = await dbControlController.executeDmlStatement(statement);
-    logger.info(`DML statement executado com sucesso`);
+    logger.info(`DML statement executed successfully`);
     res.json(result);
   } catch (err) {
     logger.error(`Erro ao executar DML statement: ${err.stack}`);

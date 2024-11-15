@@ -17,7 +17,7 @@ Table Celulares {
   cliente_id integer 
 }
 
-Table Apólices {
+Table apolices {
   id integer [primary key]
   numero varchar 
   data_emissao timestamp 
@@ -69,9 +69,9 @@ Table Riscos {
 
 
 Ref: Celulares.cliente_id > Clientes.id // many-to-one
-Ref: Apólices.cliente_id > Clientes.id // many-to-one
-Ref: Apólices.celular_id > Celulares.id // many-to-one
-Ref: Sinistros.apolice_id > Apólices.id // many-to-one
+Ref: apolices.cliente_id > Clientes.id // many-to-one
+Ref: apolices.celular_id > Celulares.id // many-to-one
+Ref: Sinistros.apolice_id > apolices.id // many-to-one
 Ref: EntradasPeças.estoque_peca_id > EstoquePeças.id // many-to-one
 Ref: SaídasPeças.estoque_peca_id > EstoquePeças.id // many-to-one
 
@@ -94,7 +94,7 @@ Ref: SaídasPeças.estoque_peca_id > EstoquePeças.id // many-to-one
    - `valor`
    - `cliente_id` (Chave estrangeira para `Clientes.id`)
 
-3. **Apólices**
+3. **apolices**
    - `id` (Primary Key)
    - `numero`
    - `data_emissao`
@@ -110,7 +110,7 @@ Ref: SaídasPeças.estoque_peca_id > EstoquePeças.id // many-to-one
    - `descricao`
    - `status` (e.g., Pendente, Aprovado, Negado)
    - `valor_indenizacao`
-   - `apolice_id` (Chave estrangeira para `Apólices.id`)
+   - `apolice_id` (Chave estrangeira para `apolices.id`)
 
 7. **EstoquePeças**
    - `id` (Primary Key)
@@ -141,10 +141,10 @@ Ref: SaídasPeças.estoque_peca_id > EstoquePeças.id // many-to-one
 ### Relacionamentos
 
 1. **Clientes** has many **Celulares** (One-to-Many)
-2. **Clientes** has many **Apólices** (One-to-Many)
+2. **Clientes** has many **apolices** (One-to-Many)
 3. **Celulares** belongs to one **Cliente** (Many-to-One)
-4. **Apólices** belongs to one **Cliente** (Many-to-One)
-5. **Apólices** belongs to one **Celular** (Many-to-One)
+4. **apolices** belongs to one **Cliente** (Many-to-One)
+5. **apolices** belongs to one **Celular** (Many-to-One)
 6. **Sinistros** belongs to one **Apólice** (Many-to-One)
 7. **EstoquePeças** has many **EntradasPeças** (One-to-Many)
 8. **EstoquePeças** has many **SaídasPeças** (One-to-Many)

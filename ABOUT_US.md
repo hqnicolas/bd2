@@ -10,7 +10,7 @@ Oferecemos um serviço completo de seguro para celulares, proporcionando tranqui
 2. 🔍  Registramos detalhes do seu celular (modelo, IMEI, valor) para uma avaliação precisa.
 3. 💪 Definimos a melhor cobertura e o prêmio ideal para suas necessidades.
 
-###  📄 **Emissão de Apólices:**
+###  📄 **Emissão de apolices:**
 
 1. 🎉 Geramos documentos de apólice claros e concisos para você ter tudo em mãos.
 2. 📅  Definimos prazo de validade e renovação automática, sem burocracia.
