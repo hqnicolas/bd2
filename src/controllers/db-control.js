@@ -8,6 +8,7 @@ const functionsFilePath = path.join(__dirname, '..', 'scripts', 'functions.sql')
 const indicesFilePath = path.join(__dirname, '..', 'scripts', 'indices.sql');
 const triggersFilePath = path.join(__dirname, '..', 'scripts', 'triggers.sql');
 const storedProceduresFilePath = path.join(__dirname, '..', 'scripts', 'stored_procedures.sql');
+const ddlFilePath = path.join(__dirname, '..', 'scripts', 'ddl.sql');
 const dmlFilePath = path.join(__dirname, '..', 'scripts', 'dml.sql');
 
 const readSqlFile = (filePath) => {
