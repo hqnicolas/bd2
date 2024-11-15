@@ -6,8 +6,8 @@ FELIPE SATURNO - @f2004felipe<br>
 NICOLAS PEREIRA - @hqnicolas<br>
 CLEITON LINO RODRIGUES - @TonClei91<br>
 AXEL FILASTRO - @Axelfilastro<br>
-EVANDRO LUIZ RODRIGUES DAMAZIO
-...
+EVANDRO LUIZ RODRIGUES DAMAZIO @evandroluizrd
+---
 
 ### Modelo Físico
 Utilizamos a ferramenta de modelagem de dados [dbdiagram.io](https://dbdiagram.io/) para criação do modelo físico do banco de dados, para posterior exportação dos scripts DDL das tabelas e relacionamentos.<br>
