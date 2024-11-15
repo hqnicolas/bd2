@@ -24,12 +24,12 @@ Para este projeto foi utilizado o banco de dados [Postgress](https://github.com/
 O CRUD backend chama as [funções](https://github.com/hqnicolas/bd2/blob/main/src/scripts/functions.sql), [DML's](https://github.com/hqnicolas/bd2/blob/main/src/scripts/dml.sql) [Indices](https://github.com/hqnicolas/bd2/blob/main/src/scripts/indices.sql), [Store Procedures](https://github.com/hqnicolas/bd2/blob/main/src/scripts/stored_procedures.sql) e [Triggers](https://github.com/hqnicolas/bd2/blob/main/src/scripts/triggers.sql)
 
 Abaixo, segue os scripts SQL separados por tipo:
-+ DDL [ddl.sql](scripts/dml.sql)
-+ Índices [indices.sql](scripts/indices.sql)
-+ DML [dml.sql](scripts/dml.sql)
-+ Triggers [triggers.sql](scripts/triggers.sql)
-+ Stored Procedures [stored_procedures.sql](scripts/stored_procedures.sql)
-+ Functions [functions.sql](scripts_sql/functions.sql)
++ DDL [ddl.sql](/src/scripts/dml.sql)
++ Índices [indices.sql](/src/scripts/indices.sql)
++ DML [dml.sql](/src/scripts/dml.sql)
++ Triggers [triggers.sql](/src/scripts/triggers.sql)
++ Stored Procedures [stored_procedures.sql](/src/scripts/stored_procedures.sql)
++ Functions [functions.sql](/src/scripts_sql/functions.sql)
 
 ### Código Fonte do CRUD
 - Linguagem de Programação <br>
