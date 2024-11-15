@@ -29,7 +29,7 @@ Abaixo, segue os scripts SQL separados por tipo:
 + DML [dml.sql](/src/scripts/dml.sql)
 + Triggers [triggers.sql](/src/scripts/triggers.sql)
 + Stored Procedures [stored_procedures.sql](/src/scripts/stored_procedures.sql)
-+ Functions [functions.sql](/src/scripts_sql/functions.sql)
++ Functions [functions.sql](/src/scripts/functions.sql)
 
 ### Código Fonte do CRUD
 - Linguagem de Programação <br>
