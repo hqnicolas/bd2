@@ -126,7 +126,7 @@ Além disso, ele explica códigos e mensagens de erro comuns.
 ]
 ```
 
-### Gerenciamento de Apólices
+### Gerenciamento de apolices
 - **POST /api/purchase-policy**: Compre uma nova apólice de seguro.
 - **Autenticação**: Token do portador
 - **Solicitação**:
@@ -144,7 +144,7 @@ Além disso, ele explica códigos e mensagens de erro comuns.
 }
 ```
 
-- **GET /api/policies**: Obtenha uma lista de Apólices ativas.
+- **GET /api/policies**: Obtenha uma lista de apolices ativas.
 - **Autenticação**: Token do portador
 - **Resposta**:
 ```json

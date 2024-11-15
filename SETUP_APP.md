@@ -1,4 +1,4 @@
-# Manual de Implantação do Gerenciador de Apólices para Seguro de Celulares
+# Manual de Implantação do Gerenciador de apolices para Seguro de Celulares
 
 ## 1. Clone o Repositório
 1. Abra um terminal ou prompt de comando.
@@ -34,35 +34,42 @@ docker compose up
 Aqui estão as instruções sobre como testar o aplicativo:
 
 ### Etapa 1
-Ação: reinicie os serviços do Docker Compose para aplicar as alterações.
-Comando: `docker-compose down && docker-compose up --build`
-Resultado esperado: os serviços devem iniciar e você deve ver logs indicando que o servidor está em execução e conectado ao banco de dados.
+Ação: Inicie o servidor
+Resultado esperado: Você deve ver a mensagem "O servidor está sendo executado na porta 8080" no terminal.
 
 ### Etapa 2
-Ação: abra um terminal e execute o seguinte comando cURL para testar o endpoint `GET /api/db-control/functions`.
-Comando: `curl -X GET http://localhost:8080/api/db-control/functions`
-Resultado esperado: o comando deve retornar uma resposta JSON listando todas as funções no banco de dados. Se não houver funções, ele deve retornar uma matriz vazia `[]`.
+Ação: Abra uma nova aba ou janela do terminal e execute o seguinte comando cURL para verificar se o banco de dados foi inicializado:
+```bash
+curl -X GET "http://localhost:8080/api/db-control/functions" -H "Content-Type: application/json"
+```
+Resultado esperado: A resposta deve conter uma lista de funções no banco de dados, indicando que o banco de dados foi inicializado com sucesso.
 
 ### Etapa 3
-Ação: execute o seguinte comando cURL para testar o endpoint `GET /api/db-control/indices`.
-Comando: `curl -X GET http://localhost:8080/api/db-control/indices`
-Resultado esperado: O comando deve retornar uma resposta JSON listando todos os índices no esquema `public`. Se não houver índices, ele deve retornar uma matriz vazia `[]`.
+Ação: Execute o seguinte comando cURL para criar um novo cliente usando a API:
+```bash
+curl -X POST "http://localhost:8080/api/db-control/dml-statements/execute" -H "Content-Type: application/json" -d '{"statement": "INSERT INTO clients (nome, cpf, email, telefone, endereco) VALUES (\'John Doe\', \'12345678900\', \'john.doe@example.com\', \'1234567890\', \'123 Main St\')"}'
+```
+Resultado esperado: A resposta deve conter uma mensagem de sucesso, indicando que o novo cliente foi adicionado ao banco de dados.
 
 ### Etapa 4
-Ação: Execute o seguinte comando cURL para testar o ponto de extremidade `GET /api/db-control/triggers`.
-Comando: `curl -X GET http://localhost:8080/api/db-control/triggers`
-Resultado esperado: O comando deve retornar uma resposta JSON listando todos os gatilhos no esquema `public`. Se não houver gatilhos, ele deve retornar uma matriz vazia `[]`.
+Ação: Execute o seguinte comando cURL para recuperar a lista de clientes:
+```bash
+curl -X POST "http://localhost:8080/api/db-control/dml-statements/execute" -H "Content-Type: application/json" -d '{"statement": "SELECT * FROM clients"}'
+```
+Resultado esperado: A resposta deve conter uma lista de clientes, incluindo o cliente que você acabou de adicionar.
 
 ### Etapa 5
-Ação: Execute o seguinte comando cURL para testar o ponto de extremidade `GET /api/db-control/stored-procedures`.
-Comando: `curl -X GET http://localhost:8080/api/db-control/stored-procedures`
-Resultado esperado: O comando deve retornar uma resposta JSON listando todos os procedimentos armazenados no banco de dados. Se não houver procedimentos armazenados, ele deve retornar uma matriz vazia `[]`.
+Ação: Execute o seguinte comando cURL para verificar se o gatilho está funcionando excluindo uma política:
+```bash
+curl -X POST "http://localhost:8080/api/db-control/dml-statements/execute" -H "Content-Type: application/json" -d '{"statement": "DELETE FROM apolices WHERE id = 1"}'
+```
+Resultado esperado: A resposta deve conter uma mensagem de sucesso, e você pode verificar o log para garantir que o gatilho foi executado e a política excluída foi registrada na tabela `ApoliceLog`.
 
 ### Etapa 6
-Ação: Execute o seguinte comando cURL para testar o endpoint `GET /api/db-control/dml-statements`.
-Comando: `curl -X GET http://localhost:8080/api/db-control/dml-statements`
-Resultado esperado: O comando deve retornar uma resposta JSON listando todas as instruções DML no arquivo `dml.sql`. Se não houver instruções DML, ele deve retornar uma matriz vazia `[]`.
+Ação: Execute o seguinte comando cURL para verificar a tabela `ApoliceLog`:
+```bash
+curl -X POST "http://localhost:8080/api/db-control/dml-statements/execute" -H "Content-Type: application/json" -d '{"statement": "SELECT * FROM ApoliceLog"}'
+```
+Resultado esperado: A resposta deve conter uma lista de políticas excluídas, incluindo a que você acabou de excluir.
 
-### Etapa 7
-Ação: Se todas as etapas acima retornarem os resultados esperados, a tarefa foi concluída com sucesso.
-Resultado esperado: Todos os comandos devem retornar respostas JSON apropriadas sem nenhum erro "Cannot GET".
+Seguindo essas etapas, você pode verificar se o banco de dados foi inicializado corretamente e se todos os objetos do banco de dados (tabelas, funções, gatilhos, etc.) estão funcionando conforme o esperado.

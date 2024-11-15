@@ -148,8 +148,15 @@ const getDmlStatements = async (req, res) => {
 };
 
 const executeDmlStatement = async (req, res) => {
-  const { statement } = req.body;
   try {
+    // Log the request body
+    logger.info(`Request body: ${JSON.stringify(req.body)}`);
+    const { statement } = req.body;
+
+    if (!statement) {
+      return res.status(400).json({ error: 'Statement is required' });
+    }
+
     const result = await executeSql(statement);
     res.json(result);
   } catch (err) {
