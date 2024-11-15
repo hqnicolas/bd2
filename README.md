@@ -13,15 +13,15 @@
 
 ### Modelo Físico
 Utilizamos a ferramenta de modelagem de dados [dbdiagram.io](https://dbdiagram.io/) para criação do modelo físico do banco de dados, para posterior exportação dos scripts DDL das tabelas e relacionamentos.<br>
-Arquivo fonte: [Modelo Fisico]().<br>
+Arquivo fonte: [Modelo Fisico](https://github.com/hqnicolas/bd2/blob/main/DB_DIAGRAM.md).<br>
 
   
 ### Dicionário de Dados
 As informações sobre as tabelas e índices foram documentados na planilha [template1.xlsx](dicionario_dados/template1.xlsx).
 
 ### Scripts SQL
-Para este projeto foi utilizado o banco de dados [Azure SQL](https://azure.microsoft.com/pt-br/products/azure-sql/database) <br>
-Este é o procedimento para criação do banco de dados Azure SQL [Criando SQL Azure serverless no Azure gratuito - Sem cartão de crédito](https://github.com/jlsilva01/sql-azure-satc).
+Para este projeto foi utilizado o banco de dados [Postgress](https://github.com/hqnicolas/bd2/blob/main/docker-compose.yml) <br>
+O CRUD backend chama as [funções](https://github.com/hqnicolas/bd2/blob/main/src/scripts/functions.sql), [DML's](https://github.com/hqnicolas/bd2/blob/main/src/scripts/dml.sql) [Indices](https://github.com/hqnicolas/bd2/blob/main/src/scripts/indices.sql), [Store Procedures](https://github.com/hqnicolas/bd2/blob/main/src/scripts/stored_procedures.sql) e [Triggers](https://github.com/hqnicolas/bd2/blob/main/src/scripts/triggers.sql)
 
 Abaixo, segue os scripts SQL separados por tipo:
 + DDL [ddl.sql](scripts_sql/ddl.sql)
