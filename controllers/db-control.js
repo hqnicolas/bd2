@@ -2,6 +2,7 @@
 const executeSql = require('../utils/executeSql');
 const fs = require('fs');
 const path = require('path');
+const logger = require('../utils/logger');
 
 const functionsFilePath = path.join(__dirname, '..', '/src/scripts/functions.sql');
 const indicesFilePath = path.join(__dirname, '..', '/src/scripts/indices.sql');
@@ -157,6 +158,34 @@ const executeDmlStatement = async (req, res) => {
   }
 };
 
+const getSchemaInfo = async (req, res) => {
+  try {
+    const tablesQuery = `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'`;
+    const indicesQuery = `SELECT t.relname AS table_name, i.relname AS index_name, a.attname AS column_name
+                          FROM pg_class t, pg_class i, pg_index ix, pg_attribute a
+                          WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey)
+                          AND t.relkind = 'r' AND t.relname NOT LIKE 'pg_%' AND t.relname NOT LIKE 'sql_%'`;
+
+    const tables = await executeSql(tablesQuery);
+    const indices = await executeSql(indicesQuery);
+
+    let markdownTable = '| Table Name | Index Name | Column Name |\n';
+    markdownTable += '|------------|------------|-------------|\n';
+
+    for (const table of tables.rows) {
+      const tableIndices = indices.rows.filter(index => index.table_name === table.table_name);
+      for (const index of tableIndices) {
+        markdownTable += `| ${table.table_name} | ${index.index_name} | ${index.column_name} |\n`;
+      }
+    }
+
+    res.json({ markdownTable });
+  } catch (err) {
+    logger.error(`Erro ao gerar tabela de esquema: ${err.stack}`);
+    res.status(500).json({ error: 'Erro ao gerar tabela de esquema' });
+  }
+};
+
 module.exports = {
   getFunctions,
   executeFunction,
@@ -170,4 +199,5 @@ module.exports = {
   executeStoredProcedure,
   getDmlStatements,
   executeDmlStatement,
+  getSchemaInfo
 };
