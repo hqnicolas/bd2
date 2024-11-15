@@ -1,12 +1,14 @@
 ## Projeto Sistema de seguro para celulares - GRUPO C
 
 ### Integrantes
-YASMIN FONTANA - @bfontanayasmin<br>
-FELIPE SATURNO - @f2004felipe<br>
-NICOLAS PEREIRA - @hqnicolas<br>
-CLEITON LINO RODRIGUES - @TonClei91<br>
-AXEL FILASTRO - @Axelfilastro<br>
-EVANDRO LUIZ RODRIGUES DAMAZIO @evandroluizrd
+
+- YASMIN FONTANA - @bfontanayasmin<br>
+- FELIPE SATURNO - @f2004felipe<br>
+- NICOLAS PEREIRA - @hqnicolas<br>
+- CLEITON LINO RODRIGUES - @TonClei91<br>
+- AXEL FILASTRO - @Axelfilastro<br>
+- EVANDRO LUIZ RODRIGUES DAMAZIO @evandroluizrd<br>
+
 ---
 
 ### Modelo Físico
