@@ -1,4 +1,4 @@
-# Manual de Implantação do Gerenciador de Donativos N3
+# Manual de Implantação do Gerenciador de Apólices para Seguro de Celulares
 
 ## 1. Clone o Repositório
 1. Abra um terminal ou prompt de comando.
