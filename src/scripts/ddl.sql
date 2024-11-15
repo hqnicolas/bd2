@@ -1,4 +1,4 @@
--- Table: clients
+-- Tabela: clients
 CREATE TABLE clients (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE clients (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table: celulares
+-- Tabela: celulares
 CREATE TABLE celulares (
     id SERIAL PRIMARY KEY,
     modelo VARCHAR(255) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE celulares (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table: apólices
+-- Tabela: apólices
 CREATE TABLE apólices (
     id SERIAL PRIMARY KEY,
     numero VARCHAR(100) UNIQUE NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE apólices (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table: sinistros
+-- Tabela: sinistros
 CREATE TABLE sinistros (
     id SERIAL PRIMARY KEY,
     data_registro TIMESTAMP NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE sinistros (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table: estoque_peças
+-- Tabela: estoque_peças
 CREATE TABLE estoque_peças (
     id SERIAL PRIMARY KEY,
     nome_peca VARCHAR(255) NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE estoque_peças (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table: entradas_peças
+-- Tabela: entradas_peças
 CREATE TABLE entradas_peças (
     id SERIAL PRIMARY KEY,
     data_entrada TIMESTAMP NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE entradas_peças (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table: saidas_peças
+-- Tabela: saidas_peças
 CREATE TABLE saidas_peças (
     id SERIAL PRIMARY KEY,
     data_saida TIMESTAMP NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE saidas_peças (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table: riscos
+-- Tabela: riscos
 CREATE TABLE riscos (
     id SERIAL PRIMARY KEY,
     tipo_risco VARCHAR(255) NOT NULL,
