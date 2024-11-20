@@ -42,6 +42,57 @@ app.use(middleware2);
 // Rotas da API
 app.use('/api/db-control', dbControlRoutes);
 
+// Rotas para servir arquivos HTML
+app.get('/register', (req, res) => {
+  res.sendFile('register.html', { root: 'public' });
+});
+
+app.get('/login', (req, res) => {
+  res.sendFile('login.html', { root: 'public' });
+});
+
+app.get('/profile', (req, res) => {
+  res.sendFile('profile.html', { root: 'public' });
+});
+
+app.get('/register-phone', (req, res) => {
+  res.sendFile('register-phone.html', { root: 'public' });
+});
+
+app.get('/purchase-policy', (req, res) => {
+  res.sendFile('purchase-policy.html', { root: 'public' });
+});
+
+app.get('/manage-policies', (req, res) => {
+  res.sendFile('manage-policies.html', { root: 'public' });
+});
+
+app.get('/register-claim', (req, res) => {
+  res.sendFile('register-claim.html', { root: 'public' });
+});
+
+app.get('/evaluate-claim', (req, res) => {
+  res.sendFile('evaluate-claim.html', { root: 'public' });
+});
+
+app.get('/manage-inventory', (req, res) => {
+  res.sendFile('manage-inventory.html', { root: 'public' });
+});
+
+app.get('/risk-analysis', (req, res) => {
+  res.sendFile('risk-analysis.html', { root: 'public' });
+});
+
+// Rota para servir a página do menu principal
+app.get('/main-menu', (req, res) => {
+  res.sendFile('index.html', { root: 'public' });
+});
+
+// Rota para a página do administrador
+app.get('/admin', (req, res) => {
+  res.sendFile('admin.html', { root: 'public' });
+});
+
 const port = process.env.PORT || 8080;
 
 const startServer = async () => {
