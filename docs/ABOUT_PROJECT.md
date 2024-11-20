@@ -1,6 +1,8 @@
 1. **Descrição geral e objetivos do aplicativo:**
 - Criar um aplicativo da web para uma empresa de seguros de telefonia móvel.
+- Oferecer serviços completos de seguro, garantindo proteção personalizada e eficiente contra imprevistos.
 - Permitir que os clientes se registrem, registrem seus telefones e comprem apólices de seguro.
+- Automatizar processos como renovação de apólices e gerenciamento de sinistros, com foco em agilidade e transparência.
 - Permitir que a empresa gerencie reivindicações e estoque de peças de reposição.
 - Fornecer análises para avaliação de risco e ajustes de apólice.
 
