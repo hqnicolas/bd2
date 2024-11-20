@@ -14,6 +14,7 @@
 - Gerenciamento de reivindicações (registro, avaliação e autorização).
 - Gerenciamento de estoque de peças de reposição.
 - Análise de risco e ajustes de apólice.
+- Notificações automáticas sobre alterações de apólices e vencimentos.
 
 3. **Especificação funcional:**
 - **Registro e login do usuário:**
@@ -47,7 +48,7 @@
 - O backend lida com autenticação de usuário, armazenamento de dados e lógica de negócios.
 - O frontend fornece uma interface amigável para clientes e administradores.
 - Pontos de extremidade de API para comunicação entre frontend e backend.
-- Tarefas em segundo plano para renovações automáticas e lembretes.
+- Tarefas em segundo plano para envio de notificações, renovações automáticas e lembretes.
 
 5. **Descrição detalhada do componente:**
 - **Páginas:**
@@ -64,6 +65,7 @@
 - **Tarefas em segundo plano:**
 - Renovações automáticas de apólices.
 - Lembretes de pagamento via SMS.
+- Envio de notificações sobre alterações nas apólices e condições.
 
 6. **Restrições e regras de negócios:**
 - O IMEI deve ser exclusivo para cada telefone registrado.
@@ -76,12 +78,14 @@
 - O usuário visita a página de registro.
 - Preenche o formulário de registro.
 - Envia o formulário e é redirecionado para a página de login.
+- 
 - **Fluxo do usuário para comprar uma apólice:**
 - O usuário faz login.
 - Navega para a página de compra da apólice.
 - Seleciona a cobertura e o prêmio desejados.
 - Envia o formulário e conclui.
 - Recebe uma mensagem de confirmação.
+- 
 - **Fluxo do administrador para avaliar reivindicações:**
 - O administrador faz login.
 - Navega para a página de avaliação de reivindicações.
