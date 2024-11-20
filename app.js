@@ -8,33 +8,38 @@ const initDatabase = require('./src/utils/initDatabase');
 
 const app = express();
 
+// Meio de campo para servir arquivos estáticos do diretório público
+app.use(express.static('public'));
+
 // Meio de campo para analisar corpos JSON
 app.use(bodyParser.json());
 
-// Meio de campo para o gerenciador de seção
+// Meio de campo para pegar o formulário
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Meio de campo para gerenciamento de sessão
 app.use(session({
   secret: 'secret-key',
   resave: false,
   saveUninitialized: true,
 }));
 
-// Define uma função volante de meio de campo
+// Meio de campo customizado
 const middleware1 = (req, res, next) => {
-  logger.info('Meio de campo 1 executado');
+  logger.info('Middleware 1 executed');
   next();
 };
 
-// Define uma função volante de meio de campo
 const middleware2 = (req, res, next) => {
-  logger.info('Meio de campo 1 executado');
+  logger.info('Middleware 2 executed');
   next();
 };
 
-// Use o meio de campo
+// Use Meio de campo
 app.use(middleware1);
 app.use(middleware2);
 
-// API routes
+// Rotas da API
 app.use('/api/db-control', dbControlRoutes);
 
 const port = process.env.PORT || 8080;
