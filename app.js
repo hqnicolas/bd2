@@ -127,3 +127,24 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Erro do Servidor Interno' });
   next(); // Continue para o próximo middleware
 });
+
+// Rota para registrar telefone celular
+app.post('/api/register-phone', async (req, res) => {
+  const { phone } = req.body;
+
+  // Verifica se o número de telefone foi fornecido
+  if (!phone) {
+      return res.status(400).json({ error: 'O número de telefone é obrigatório.' });
+  }
+
+  try {
+      // Simulação: Inserir o número no banco de dados (substitua pela lógica real)
+      console.log(`Registrando telefone: ${phone}`);
+
+      // Resposta de sucesso
+      return res.status(200).json({ message: 'Telefone registrado com sucesso!' });
+  } catch (error) {
+      console.error('Erro ao registrar telefone:', error);
+      return res.status(500).json({ error: 'Erro interno ao registrar telefone.' });
+  }
+});

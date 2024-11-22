@@ -1,0 +1,116 @@
+/* Estilo global */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Contêiner principal */
+.container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px;  /* Tamanho mais compacto */
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    margin: 20px;  /* Espaçamento lateral */
+}
+
+/* Cabeçalho */
+h1 {
+    font-size: 22px; /* Menor fonte */
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Rótulos e entradas */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #555;
+    font-size: 14px; /* Fonte ajustada */
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px; /* Tamanho mais confortável */
+    margin-bottom: 12px; /* Menor espaço entre os campos */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Campo do endereço */
+fieldset {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+legend {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    padding: 0 5px;
+}
+
+/* Botão */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Mensagem de resposta */
+#response {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Efeito de foco */
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+    .container {
+        max-width: 90%; /* Mais largura para dispositivos menores */
+    }
+
+    h1 {
+        font-size: 20px; /* Tamanho do título ajustado */
+    }
+
+    label, input, select, textarea {
+        font-size: 12px; /* Fonte menor em dispositivos pequenos */
+    }
+
+    button {
+        font-size: 13px; /* Ajusta o tamanho do botão em telas menores */
+    }
+}

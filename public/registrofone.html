@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Telefone</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <h1>Registre seu telefone</h1>
+    <form id="phoneForm">
+        <!-- Campo para o número de telefone -->
+        <label for="phone">Número de Telefone:</label>
+        <input type="tel" id="phone" name="phone" required placeholder="Ex: (11) 98765-4321">
+
+        <!-- Campo para selecionar a marca -->
+        <label for="brand">Marca do Telefone:</label>
+        <select id="brand" name="brand" required>
+            <option value="" disabled selected>Selecione uma marca</option>
+            <option value="Samsung">Samsung</option>
+            <option value="Apple">Apple</option>
+            <option value="Xiaomi">Xiaomi</option>
+            <option value="Motorola">Motorola</option>
+            <option value="Outra">Outra</option>
+        </select>
+
+        <!-- Campo para selecionar a operadora -->
+        <label for="carrier">Operadora:</label>
+        <select id="carrier" name="carrier" required>
+            <option value="" disabled selected>Selecione uma operadora</option>
+            <option value="Claro">Claro</option>
+            <option value="Vivo">Vivo</option>
+            <option value="Tim">Tim</option>
+            <option value="Oi">Oi</option>
+            <option value="Outra">Outra</option>
+        </select>
+
+        <!-- Campo para informar o tempo de uso -->
+        <label for="usageTime">Tempo de Uso (em anos):</label>
+        <input type="number" id="usageTime" name="usageTime" required min="0" placeholder="Ex: 2">
+
+        <!-- Botão para enviar -->
+        <button type="submit">Registrar</button>
+    </form>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('phoneForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const phone = document.getElementById('phone').value;
+            const brand = document.getElementById('brand').value;
+            const carrier = document.getElementById('carrier').value;
+            const usageTime = document.getElementById('usageTime').value;
+
+            try {
+                const response = await fetch('/api/register-phone', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, brand, carrier, usageTime })
+                });
+
+                const data = await response.json();
+                const responseDiv = document.getElementById('response');
+
+                if (response.ok) {
+                    responseDiv.textContent = data.message;
+                    responseDiv.style.color = 'green';
+                } else {
+                    responseDiv.textContent = data.error || 'Erro ao registrar o telefone.';
+                    responseDiv.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+            }
+        });
+    </script>
+</body>
+</html>
