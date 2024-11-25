@@ -148,3 +148,22 @@ app.post('/api/register-phone', async (req, res) => {
       return res.status(500).json({ error: 'Erro interno ao registrar telefone.' });
   }
 });
+
+app.post('/api/purchase-policy', async (req, res) => {
+  const { cpf, imei, coverage } = req.body;
+  // Lógica para registrar a apólice no banco de dados
+  res.status(200).json({ message: 'Apólice comprada com sucesso!' });
+});
+
+app.get('/api/manage-policies', async (req, res) => {
+  // Lógica para buscar apólices do banco de dados
+  res.json([
+      { id: 1, cpf: '12345678900', imei: '111222333444555', coverage: 'Completa', status: 'Ativa' }
+  ]);
+});
+
+app.delete('/api/manage-policies/:id', async (req, res) => {
+  const { id } = req.params;
+  // Lógica para excluir apólice do banco de dados
+  res.status(200).json({ message: 'Apólice excluída com sucesso!' });
+});
