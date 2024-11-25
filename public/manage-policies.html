@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Apólices</title>
+    <link rel="stylesheet" href="ec-style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gerenciar Apólices</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>CPF</th>
+                    <th>IMEI</th>
+                    <th>Cobertura</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="policyList">
+                <!-- Dados serão preenchidos dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        async function fetchPolicies() {
+            try {
+                const response = await fetch('/api/manage-policies');
+                const policies = await response.json();
+
+                const policyList = document.getElementById('policyList');
+                policyList.innerHTML = '';
+
+                policies.forEach(policy => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${policy.id}</td>
+                        <td>${policy.cpf}</td>
+                        <td>${policy.imei}</td>
+                        <td>${policy.coverage}</td>
+                        <td>${policy.status}</td>
+                        <td>
+                            <button onclick="updatePolicy(${policy.id})">Atualizar</button>
+                            <button onclick="deletePolicy(${policy.id})">Excluir</button>
+                        </td>
+                    `;
+                    policyList.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Erro ao buscar apólices:', error);
+            }
+        }
+
+        async function updatePolicy(id) {
+            // Implementar lógica de atualização
+            console.log(`Atualizar apólice ID: ${id}`);
+        }
+
+        async function deletePolicy(id) {
+            try {
+                const response = await fetch(`/api/manage-policies/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    alert('Apólice excluída com sucesso!');
+                    fetchPolicies();
+                } else {
+                    alert('Erro ao excluir apólice.');
+                }
+            } catch (error) {
+                console.error('Erro ao excluir apólice:', error);
+            }
+        }
+
+        // Carregar as apólices ao carregar a página
+        fetchPolicies();
+    </script>
+</body>
+</html>

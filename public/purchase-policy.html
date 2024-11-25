@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprar Apólice</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Comprar Apólice de Seguro</h1>
+        <form id="purchasePolicyForm">
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" required placeholder="Digite seu CPF" maxlength="14">
+
+            <label for="imei">IMEI do Celular:</label>
+            <input type="text" id="imei" name="imei" required placeholder="Digite o IMEI do celular" maxlength="15">
+
+            <label for="coverage">Cobertura:</label>
+            <select id="coverage" name="coverage" required>
+                <option value="" disabled selected>Selecione a cobertura</option>
+                <option value="Roubo">Roubo</option>
+                <option value="Danos">Danos</option>
+                <option value="Completa">Completa</option>
+            </select>
+
+            <button type="submit">Comprar Apólice</button>
+        </form>
+        <div id="response"></div>
+    </div>
+    <script>
+        document.getElementById('purchasePolicyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                cpf: document.getElementById('cpf').value,
+                imei: document.getElementById('imei').value,
+                coverage: document.getElementById('coverage').value
+            };
+
+            try {
+                const response = await fetch('/api/purchase-policy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+                const responseDiv = document.getElementById('response');
+
+                if (response.ok) {
+                    responseDiv.textContent = data.message;
+                    responseDiv.style.color = 'green';
+                } else {
+                    responseDiv.textContent = data.error || 'Erro ao comprar apólice.';
+                    responseDiv.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+            }
+        });
+    </script>
+</body>
+</html>
