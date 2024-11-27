@@ -1,64 +1,74 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comprar Apólice</title>
-    <link rel="stylesheet" href="estilo.css">
+    <title>Compra de Apólice</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Comprar Apólice de Seguro</h1>
-        <form id="purchasePolicyForm">
-            <label for="cpf">CPF:</label>
-            <input type="text" id="cpf" name="cpf" required placeholder="Digite seu CPF" maxlength="14">
-
-            <label for="imei">IMEI do Celular:</label>
-            <input type="text" id="imei" name="imei" required placeholder="Digite o IMEI do celular" maxlength="15">
-
-            <label for="coverage">Cobertura:</label>
-            <select id="coverage" name="coverage" required>
-                <option value="" disabled selected>Selecione a cobertura</option>
-                <option value="Roubo">Roubo</option>
-                <option value="Danos">Danos</option>
-                <option value="Completa">Completa</option>
-            </select>
-
-            <button type="submit">Comprar Apólice</button>
-        </form>
+    <form id="policyForm" action="/purchase-policy" method="POST">
+        <h1>Compra de Apólice</h1>
+        <label for="cobertura">Cobertura:</label>
+        <input type="text" id="cobertura" name="cobertura" required placeholder="Ex: seguro de roubo">
+        <br>
+        <label for="premio">Prêmio:</label>
+        <input type="number" id="premio" name="premio" required placeholder="Ex: 3000">
+        <br>
+        <label for="clientId">id do Cliente:</label>
+        <input type="number" id="clientId" name="clientId" required placeholder="Ex: 1">
+        <br>
+        <label for="celularId">id do Celular:</label>
+        <input type="number" id="celularId" name="celularId" required placeholder="Ex: 3">
+        <br>
+        <label for="numero">Numero da Apólice:</label>
+        <input type="text" id="numero" name="numero" required placeholder="Ex: APOLICE-013">
+        <br>
+        <label for="data_validade">Data de Validade:</label>
+        <input type="date" id="data_validade" name="data_validade" required>
+        <br>
+        <button type="submit">Compra de Apólice</button>
         <div id="response"></div>
-    </div>
+    </form>
+
     <script>
-        document.getElementById('purchasePolicyForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+    document.getElementById('policyForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-            const formData = {
-                cpf: document.getElementById('cpf').value,
-                imei: document.getElementById('imei').value,
-                coverage: document.getElementById('coverage').value
-            };
+      const cobertura = document.getElementById('cobertura').value;
+      const premio = document.getElementById('premio').value;
+      const clientId = document.getElementById('clientId').value;
+      const celularId = document.getElementById('celularId').value;
+      const numero = document.getElementById('numero').value;
+      const data_validade = document.getElementById('data_validade').value;
 
-            try {
-                const response = await fetch('/api/purchase-policy', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
+      try {
+          const response = await fetch('/purchase-policy', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ cobertura, premio, clientId, celularId, numero, data_validade })
+          });
 
-                const data = await response.json();
-                const responseDiv = document.getElementById('response');
+          const data = await response.json();
+          const responseDiv = document.getElementById('response');
 
-                if (response.ok) {
-                    responseDiv.textContent = data.message;
-                    responseDiv.style.color = 'green';
-                } else {
-                    responseDiv.textContent = data.error || 'Erro ao comprar apólice.';
-                    responseDiv.style.color = 'red';
-                }
-            } catch (error) {
-                console.error('Erro na requisição:', error);
-            }
-        });
+          if (response.ok) {
+              responseDiv.textContent = data.message || 'Apólice registrada com sucesso.';
+              responseDiv.style.color = 'green';
+              setTimeout(() => {
+                  window.location.href = '/main-menu';
+              }, 2000);
+          } else {
+              responseDiv.textContent = data.error || 'Erro ao Comprar Apólice.';
+              responseDiv.style.color = 'red';
+          }
+      } catch (error) {
+          console.error('Erro na requisição:', error);
+          const responseDiv = document.getElementById('response');
+          responseDiv.textContent = 'Erro ao enviar a Apólice.';
+          responseDiv.style.color = 'red';
+      }
+    });
     </script>
 </body>
 </html>

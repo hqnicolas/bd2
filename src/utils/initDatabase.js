@@ -36,10 +36,7 @@ const executeSqlFile = async (filePath) => {
 const initDatabase = async () => {
   const initialized = await checkDatabaseInitialized();
 
-  if (initialized) {
-    logger.info('Database already initialized. Skipping initialization.');
-    return;
-  }else{
+  if (initialized === false) {
     try {
       for (const file of scriptFiles) {
         const filePath = path.join(__dirname, '..', 'scripts', file);
@@ -48,27 +45,40 @@ const initDatabase = async () => {
         logger.info(`Script SQL executado com sucesso: ${filePath}`);
       }
       await markDatabaseInitialized();
-      logger.info('Database initialized successfully');
+      logger.info('Banco de dados Inicializado com Sucesso!');
     } catch (err) {
       logger.error(`Erro ao inicializar o banco de dados: ${err.stack}`);
       process.exit(1);
     }
+  } else {
+    logger.info('Banco de dados já está carregado! Pulando scripts.');
   }
 };
 
 const checkDatabaseInitialized = async () => {
-    try {
-  const query = 'SELECT initialized FROM metadata';
-  const result = await executeSql(query);
-  return result.rows[0] && result.rows[0].initialized === true;
-    } catch (err) {
-       return false;
+  try {
+    const checkTableQuery = `SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'metadata')`;
+    const tableExistsResult = await executeSql(checkTableQuery);
+
+    if (!tableExistsResult[0].exists) {
+      logger.error('Erro ao verificar se o banco está populado: tabela metadata não existe');
+      return false;
+    }else {
+      return true;
     }
+  } catch (err) {
+    logger.error(`Erro ao verificar se o banco está populado: ${err.stack}`);
+    return false;
+  }
 };
 
 const markDatabaseInitialized = async () => {
   const query = 'UPDATE metadata SET initialized = TRUE';
-  await executeSql(query);
+  try {
+    await executeSql(query);
+  } catch (err) {
+    logger.error(`Erro ao definir o banco de dados como inicializado: ${err.stack}`);
+  }
 };
 
 module.exports = initDatabase;

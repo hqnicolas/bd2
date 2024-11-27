@@ -128,6 +128,7 @@ const getStoredProcedures = async (req, res) => {
 };
 
 const executeStoredProcedure = async (req, res) => {
+    logger.info(`Request body: ${JSON.stringify(req.body)}`);
     const { procedureName, parameters } = req.body;
     const query = `CALL ${procedureName}(${parameters.join(',')})`;
     try {

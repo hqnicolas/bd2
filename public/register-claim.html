@@ -4,23 +4,53 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reivindicação de Seguro</title>
-  <link rel="stylesheet" href="rc-style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <h1>Reivindicação de Seguro</h1>
-    <form action="processar_reivindicacao.php" method="post">
-     
-      <label for="cpf">CPF</label>
-      <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required maxlength="14">
-
-      
-      <label for="imei">IMEI do Celular</label>
-      <input type="text" id="imei" name="imei" placeholder="Digite o número IMEI do celular" required maxlength="15">
-
-     
+    <form id="register-claim" action="/register-claim" method="POST">
+      <label for="descricao">Descrição</label>
+      <input type="text" id="descricao" name="descricao" placeholder="Descreva a Ocorrência" required maxlength="144">     
+      <label for="apolice_id">ID Apólice</label>
+      <input type="text" id="apolice_id" name="apolice_id" placeholder="ID da sua apólice" required maxlength="5">
       <button type="submit">Enviar Reivindicação</button>
     </form>
+    <div id="response"></div> <!-- Adicionado um div de resposta para mostrar mensagens -->
   </div>
+  <script>
+    document.getElementById('register-claim').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const apolice_id = document.getElementById('apolice_id').value;
+      const descricao = document.getElementById('descricao').value;
+      try {
+          const response = await fetch('/register-claim', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ descricao, apolice_id })
+          });
+
+          const data = await response.json();
+          const responseDiv = document.getElementById('response');
+
+          if (response.ok) { 
+              responseDiv.textContent = data.message || 'Reivindicação registrada com sucesso.';
+              responseDiv.style.color = 'green';
+              setTimeout(() => {
+                  window.location.href = '/main-menu';
+              }, 2000);
+          } else {
+              responseDiv.textContent = data.error || 'Erro ao registrar a Reivindicação.';
+              responseDiv.style.color = 'red';
+          }
+      } catch (error) {
+          console.error('Erro na requisição:', error);
+          const responseDiv = document.getElementById('response');
+          responseDiv.textContent = 'Erro ao enviar a reivindicação.';
+          responseDiv.style.color = 'red';
+      }
+    });
+  </script>
 </body>
 </html>

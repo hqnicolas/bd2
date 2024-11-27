@@ -1,23 +1,48 @@
-<!-- public/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Main Menu</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .register-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 9px #999;
+        }
+
+        .register-btn:hover {
+            background-color: #3e8e41;
+        }
+
+        .register-btn:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🛡️ Proteja seu Celular com Seguro! 📱</h1>
-    <div class="menu">
-        <button class="menu-button" onclick="window.location.href='/profile'">Perfil</button>
-        <button class="menu-button" onclick="window.location.href='/register-phone'">Registrar telefone</button>
-        <button class="menu-button" onclick="window.location.href='/purchase-policy'">Compra de Apólices</button>
-        <button class="menu-button" onclick="window.location.href='/manage-policies'">Gerenciar Apólices</button>
-        <button class="menu-button" onclick="window.location.href='/register-claim'">Registrar reivindicação</button>
-
-    </div>
-  </div>
+    <form action="/login" method="POST">
+        <h1>Login</h1>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+        <a href="/register" class="register-btn">Registrar</a>
+    </form>
 </body>
 </html>

@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Registre seu telefone</h1>
     <form id="phoneForm">
+        <h1>Registre seu telefone</h1>
         <!-- Campo para o número de telefone -->
-        <label for="phone">Número de Telefone:</label>
-        <input type="tel" id="phone" name="phone" required placeholder="Ex: (11) 98765-4321">
+        <label for="phone">Número de IMEI:</label>
+        <input type="number" id="phone" name="phone" required placeholder="Ex: 9876943210987654">
 
         <!-- Campo para selecionar a marca -->
         <label for="brand">Marca do Telefone:</label>
@@ -25,19 +25,19 @@
         </select>
 
         <!-- Campo para selecionar a operadora -->
-        <label for="carrier">Operadora:</label>
+        <label for="carrier">Faixa de Preço:</label>
         <select id="carrier" name="carrier" required>
-            <option value="" disabled selected>Selecione uma operadora</option>
-            <option value="Claro">Claro</option>
-            <option value="Vivo">Vivo</option>
-            <option value="Tim">Tim</option>
-            <option value="Oi">Oi</option>
-            <option value="Outra">Outra</option>
+            <option value="" disabled selected>Selecione uma Faixa de Valor</option>
+            <option value="1000">1000</option>
+            <option value="2000">2000</option>
+            <option value="3000">3000</option>
+            <option value="4000">4000</option>
+            <option value="5000">5000</option>
         </select>
 
         <!-- Campo para informar o tempo de uso -->
-        <label for="usageTime">Tempo de Uso (em anos):</label>
-        <input type="number" id="usageTime" name="usageTime" required min="0" placeholder="Ex: 2">
+        <label for="user_id">ID do usuário que receberá o prêmio:</label>
+        <input type="number" id="user_id" name="user_id" required min="0" placeholder="Ex: 2">
 
         <!-- Botão para enviar -->
         <button type="submit">Registrar</button>
@@ -48,24 +48,26 @@
         document.getElementById('phoneForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const phone = document.getElementById('phone').value;
-            const brand = document.getElementById('brand').value;
-            const carrier = document.getElementById('carrier').value;
-            const usageTime = document.getElementById('usageTime').value;
-
+            const imei = document.getElementById('phone').value;
+            const modelo = document.getElementById('brand').value;
+            const valor = document.getElementById('carrier').value;
+            const clientId = document.getElementById('user_id').value;
             try {
-                const response = await fetch('/api/register-phone', {
+                const response = await fetch('/register-phone', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ phone, brand, carrier, usageTime })
+                    body: JSON.stringify({ imei, modelo, valor, clientId })
                 });
-
+ 
                 const data = await response.json();
                 const responseDiv = document.getElementById('response');
 
                 if (response.ok) {
                     responseDiv.textContent = data.message;
                     responseDiv.style.color = 'green';
+                    setTimeout(() => {
+                        window.location.href = '/main-menu';
+                    }, 2000);
                 } else {
                     responseDiv.textContent = data.error || 'Erro ao registrar o telefone.';
                     responseDiv.style.color = 'red';
