@@ -3,7 +3,7 @@ const executeSql = require('./executeSql');
 
 async function runTests() {
   try {
-    // Test: Select all clients
+    // Teste: Selecionar todos os clientes
     const selectClientsQuery = 'SELECT * FROM clients';
     const clients = await executeSql(selectClientsQuery);
     console.log('All Clients:', clients);

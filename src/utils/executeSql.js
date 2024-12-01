@@ -16,7 +16,7 @@ async function executeSql(query, values = []) {
   } catch (err) {
     logger.error(`Erro ao executar SQL: ${query}`);
     logger.error(`Erro: ${err.stack}`);
-    return null; // Retorna Nulo para indicar uma falha
+    throw new Error(err.message);  // Retorna Nulo para indicar uma falha
   }
 }
 

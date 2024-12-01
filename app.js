@@ -1,4 +1,3 @@
-// app.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -87,6 +86,60 @@ app.get('/risk-analysis', (req, res) => {
   res.sendFile('risk-analysis.html', { root: 'public' });
 });
 
+// Rota para excluir uma apólice
+app.delete('/manage-policies/delete', async (req, res) => {
+  const { numero } = req.body;
+  try {
+      const result = await deletePolicy(numero);
+      if (result.success) {
+          res.json({ success: true });
+      } else {
+          res.json({ success: false, error: result.error });
+      }
+  } catch (err) {
+      logger.error(`Erro ao excluir a apólice: ${err.stack}`);
+      res.status(500).json({ error: 'Erro interno do backend' });
+  }
+});
+
+// Rota para buscar apólices por ID do Cliente
+app.get('/manage-policies/fetch', async (req, res) => {
+  const { idCliente } = req.query;
+  try {
+      const policies = await fetchPolicies(idCliente);
+      res.json(policies);
+  } catch (err) {
+      logger.error(`Erro ao buscar apólices: ${err.stack}`);
+      res.status(500).json({ error: 'Erro interno do backend' });
+  }
+});
+
+// Rota para buscar o log das políticas excluídas
+app.get('/manage-policies/log', async (req, res) => {
+  try {
+      const policiesLogData = await fetchPoliciesLogFromDB();
+      res.json(policiesLogData);
+  } catch (err) {
+      logger.error(`Erro ao buscar log de apólices: ${err.stack}`);
+      res.status(500).json({ error: 'Erro interno do backend' });
+  }
+});
+
+// Rota para excluir sinistros baseado no ID do cliente
+app.delete('/delete-claims/:clientId', async (req, res) => {
+  const clientId = req.params.clientId;
+  try {
+    const result = await deleteClaims(clientId);
+    if (result.success) {
+      res.json({ success: true });
+    } else {
+      res.json({ success: false, error: result.error });
+    }
+  } catch (err) {
+    logger.error(`Erro ao excluir sinistros: ${err.stack}`);
+    res.status(500).json({ error: 'Erro interno do backend' });
+  }
+});
 
 // Rota de registro de novo perfil
 app.post('/register', async (req, res) => {
@@ -223,20 +276,45 @@ app.post('/evaluate-claim', async (req, res) => {
   }
 });
 
+// Rota para sincronizar sinistros
+app.get('/sinistros', async (req, res) => {
+  const query = 'SELECT * FROM sinistros WHERE status = $1';
+  const values = ['Aberto'];
+  try {
+    const result = await executeSql(query, values);
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
+
 // Rota para executar stored procedures e criar uma análise de risco
 app.post('/api/risk-analysis', async (req, res) => {
   const { procedureName, parameters } = req.body;
-  const query = `CALL ${procedureName}(${parameters.join(',')})`;
+  const query = `SELECT ${procedureName}(${parameters.join(',')})`;
   try {
     logger.info(`Executando stored procedure: ${procedureName} Com os parametros: ${JSON.stringify(parameters)}`);
     const result = await executeSql(query);
     logger.info(`Stored procedure ${procedureName} Executado com sucesso`);
+    if (result.length > 0 && result[0].pr_count_sinistros_cliente !== undefined) {
+      logger.info(`Resultado: ${result[0].pr_count_sinistros_cliente}`);
+    } else {
+      logger.info('Resultado: Nenhum resultado encontrado');
+    }
+    if (result.length > 0 && result[0].pr_count_apolices !== undefined) {
+      logger.info(`Resultado: ${result[0].pr_count_apolices}`);
+    } else {
+      logger.info('Resultado: Nenhum resultado encontrado');
+    }
     res.json(result);
   } catch (err) {
     logger.error(`Erro ao executar stored procedure: ${err.stack}`);
     res.status(500).json({ error: 'Erro interno do backend' });
   }
 });
+
 
 // Rota para obter o ID do usuário pelo CPF
 app.get('/api/db-control/get-user-id-by-cpf', async (req, res) => {
@@ -283,5 +361,60 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Erro interno do backend' });
   next(); // Continue para o próximo meio de campo
 });
+
+// Função para excluir sinistros baseado no ID da Apólice
+const deleteClaims = async (clientId) => {
+  const query = 'DELETE FROM sinistros WHERE apolice_id = $1';
+  const values = [clientId];
+  try {
+    const result = await executeSql(query, values);
+    logger.info(`Sinistros excluídos com sucesso para a Apólice ${clientId}`);
+    return { success: true };
+  } catch (err) {
+    logger.error(`Erro ao excluir sinistros para o Apólice ${clientId}: ${err.stack}`);
+    return { success: false, error: err.message };
+  }
+};
+
+// Função para excluir uma apólice
+const deletePolicy = async (numero) => {
+  const query = 'DELETE FROM apolices WHERE cliente_id = $1';
+  const values = [numero];
+  try {
+      const result = await executeSql(query, values);
+      logger.info(`Apólice ${numero} excluída com sucesso.`);
+      return { success: true };
+  } catch (err) {
+      logger.error(`Erro ao excluir apólice ${numero}: ${err.stack}`);
+      return { success: false, error: err.message };
+  }
+};
+
+// Função para buscar log das Apolices excluidas
+const fetchPoliciesLogFromDB = async () => {
+  const query = 'SELECT * FROM ApoliceLog ORDER BY deleted_date DESC';
+  try {
+      const result = await executeSql(query);
+      logger.info('Políticas logadas obtidas com sucesso.');
+      return result;
+  } catch (err) {
+      logger.error(`Erro ao buscar log de apólices: ${err.stack}`);
+      throw new Error('Erro ao buscar log de apólices.');
+  }
+};
+
+// Função para buscar apólices por ID do Cliente
+const fetchPolicies = async (idCliente) => {
+  const query = 'SELECT numero, celular_id, cobertura FROM apolices WHERE cliente_id = $1';
+  const values = [idCliente];
+  try {
+      const policies = await executeSql(query, values);
+      logger.info(`Apólices buscadas para o ID Cliente ${idCliente}.`);
+      return policies;
+  } catch (err) {
+      logger.error(`Erro ao buscar apólices para ID Cliente ${idCliente}: ${err.stack}`);
+      throw new Error('Erro ao buscar apólices.');
+  }
+};
 
 startServer();
