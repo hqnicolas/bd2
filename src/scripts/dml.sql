@@ -23,3 +23,52 @@ INSERT INTO sinistros (data_registro, descricao, status, valor_indenizacao, apol
 
 -- Inserindo dados iniciais dos riscos
 INSERT INTO riscos (tipo_risco, taxa_sinistro, cobertura_recomendada, premio_recomendado, created_at) VALUES  ('Fogo', 0.05, 'Seguro de câmera', 800.00, NOW()), ('Inundação', 0.03, 'Seguro de câmera', 600.00, NOW()), ('Queda', 0.02, 'Seguro de carcaça', 500.00, NOW()), ('tela', 0.01, 'Seguro de roubo', 1000.00, NOW()), ('Queda', 0.005, 'Seguro de todas as peças', 1000.00, NOW());
+
+INSERT INTO clients (nome, cpf, email, telefone, endereco) VALUES 
+('Carlos Eduardo', '987.654.321-11', 'carlos.eduardo@hotmail.com', '(11) 9.8765-4321', 'Rua Nova, 212'),
+('Fernanda Lima', '321.987.654-22', 'fernanda.lima@hotmail.com', '(11) 8.7654-3210', 'Avenida Principal, 314'),
+('André Santos', '654.321.987-33', 'andre.santos@hotmail.com', '(11) 7.6543-2109', 'Rua Secundária, 415'),
+('Patrícia Souza', '987.654.123-44', 'patricia.souza@hotmail.com', '(11) 6.5432-1098', 'Rua Central, 516'),
+('Lucas Almeida', '321.456.789-55', 'lucas.almeida@hotmail.com', '(11) 5.4321-0987', 'Avenida Paralela, 617');
+
+INSERT INTO celulares (modelo, imei, valor, cliente_id, created_at) VALUES
+('Samsung Galaxy A72', '1234569876543210', 1500.00, 20, NOW()),
+('Apple iPhone SE', '9876543210981123', 2500.00, 21, NOW()),
+('Xiaomi Poco X3', '6543210987654321', 1200.00, 22, NOW()),
+('OnePlus Nord 2', '1234987654321098', 2200.00, 23, NOW()),
+('Motorola Edge 20', '9876123456784321', 1800.00, 24, NOW());
+
+INSERT INTO estoque_pecas (nome_peca, quantidade, level_critico, valor_unitario, created_at) VALUES
+('Velas de Ignição', 70, 10, 15.00, NOW()),
+('Fusível', 300, 20, 2.00, NOW()),
+('Radiador', 40, 5, 150.00, NOW()),
+('Filtro de Óleo', 90, 8, 25.00, NOW()),
+('Correia Dentada', 60, 10, 100.00, NOW());
+
+INSERT INTO entradas_pecas (data_entrada, quantidade, estoque_peca_id, created_at) VALUES
+('2024-01-01', 25, 10, NOW()),
+('2024-01-15', 15, 11, NOW()),
+('2024-02-01', 10, 12, NOW()),
+('2024-02-15', 18, 13, NOW()),
+('2024-03-01', 20, 14, NOW());
+
+INSERT INTO apolices (numero, data_emissao, data_validade, cobertura, premio, cliente_id, celular_id, created_at) VALUES
+('APOLICE-013', '2023-07-01', '2024-07-01', 'Seguro de tela', 600.00, 20, 20, NOW()),
+('APOLICE-014', '2023-08-01', '2024-08-01', 'Seguro de bateria', 400.00, 21, 21, NOW()),
+('APOLICE-015', '2023-09-01', '2024-09-01', 'Seguro total', 1200.00, 22, 22, NOW()),
+('APOLICE-016', '2023-10-01', '2024-10-01', 'Seguro contra roubo', 800.00, 23, 23, NOW()),
+('APOLICE-017', '2023-11-01', '2024-11-01', 'Seguro contra danos líquidos', 900.00, 24, 24, NOW());
+
+INSERT INTO saidas_pecas (data_saida, quantidade, estoque_peca_id, created_at) VALUES
+('2024-01-01', 10, 10, NOW()),
+('2024-01-15', 5, 11, NOW()),
+('2024-02-01', 7, 12, NOW()),
+('2024-02-15', 8, 13, NOW()),
+('2024-03-01', 6, 14, NOW());
+
+INSERT INTO sinistros (data_registro, descricao, status, valor_indenizacao, apolice_id, created_at) VALUES
+('2023-07-15', 'Quebra da tela', 'Aberto', 400.00, 13, NOW()),
+('2023-08-20', 'Problema na bateria', 'Encerrado', 300.00, 14, NOW()),
+('2023-09-25', 'Roubo do dispositivo', 'Encerrado', 1000.00, 15, NOW()),
+('2023-10-30', 'Dano por queda', 'Aberto', 700.00, 16, NOW()),
+('2023-11-05', 'Dano por líquido', 'Encerrado', 800.00, 17, NOW());
