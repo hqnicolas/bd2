@@ -7,9 +7,108 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Gerenciar Apólices</h1>
-    <ul>
-        <!-- As Apólices serão listadas aqui -->
-    </ul>
+    <div class="form-group">
+        <h1>Gerenciar Apólices</h1>
+        <label for="clientId">ID do Cliente</label>
+        <input type="number" id="clientId" placeholder="Digite o ID do Cliente" />
+        <button onclick="fetchPolicies()">Buscar Apólices do Cliente</button>
+        <label for="policyNumber">Número ID do Cliente</label>
+        <input type="text" id="policyNumber" placeholder="Digite o número da apólice" />
+        <button onclick="deletePolicy()">Excluir Apólice</button>
+        <label for="claimClientId">ID da Apólice para Excluir Sinistros</label>
+        <input type="number" id="claimClientId" placeholder="Digite o ID da Apólice" />
+        <button onclick="deleteClaims()">Excluir Sinistros</button>
+        <p id="error" class="error" style="display: none;">Apólice não encontrada.</p>
+        <ul id="policiesList" style="list-style-type: none;"></ul>
+
+        <!-- Adicionei um botão para buscar o log de apólices excluidas -->
+        <button id="fetch-policies-log-btn">Listar Apólices Excluidas</button>
+
+        <!-- Adicione uma lista para exibir os dados do log -->
+        <ul id="policies-log-list"></ul>
+    </div>
+    <script>
+        const deletePolicy = async () => {
+            const number = document.getElementById('policyNumber').value;
+            if (confirm(`Tem certeza que deseja excluir a apólice ${number}?`)) {
+                const response = await fetch('/manage-policies/delete', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ numero: number }),
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('Apólice excluída com sucesso!');
+                } else {
+                    alert('Erro ao excluir a apólice: ' + result.error);
+                }
+                document.getElementById('policyNumber').value = '';
+            }
+        };
+
+        const fetchPolicies = async () => {
+            const clientId = document.getElementById('clientId').value;
+            const response = await fetch(`/manage-policies/fetch?idCliente=${clientId}`, {
+                method: 'GET',
+            });
+
+            const policies = await response.json();
+            const policiesList = document.getElementById('policiesList');
+            policiesList.innerHTML = '';
+
+            if (policies.length) {
+                policies.forEach(policy => {
+                    const li = document.createElement('li');
+                    li.textContent = `Número da Apólice: ${policy.numero}, ID Celular: ${policy.celular_id}, Cobertura: ${policy.cobertura}`;
+                    policiesList.appendChild(li);
+                });
+            } else {
+                alert('Nenhuma apólice encontrada para o ID do Cliente.');
+            }
+        };
+
+        const deleteClaims = async () => {
+            const clientId = document.getElementById('claimClientId').value;
+            try {
+                const response = await fetch(`/delete-claims/${clientId}`, {
+                    method: 'DELETE',
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert('Sinistros excluídos com sucesso!');
+                } else {
+                    alert('Erro ao excluir sinistros: ' + result.error);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        // Crie uma função para fazer uma solicitação de API para recuperar os dados do log de políticas
+        const fetchPoliciesLog = async () => {
+            console.log('Buscando dados de log de Apólices...');
+            try {
+                const response = await fetch('/manage-policies/log');
+                const policiesLog = await response.json();
+                console.log('Policies log data:', policiesLog);
+                const policiesLogList = document.getElementById('policies-log-list');
+                policiesLogList.innerHTML = '';
+
+                policiesLog.forEach(log => {
+                    const li = document.createElement('li');
+                    li.textContent = `Número: ${log.numero}, Data Emissão: ${log.data_emissao}, Cobertura: ${log.cobertura}, Data Deletada: ${log.deleted_date}`;
+                    policiesLogList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Erro ao buscar relatório de apólices removidas:', error);
+            }
+        };
+
+        // Adicione um ouvinte de evento ao botão para chamar a função fetchPoliciesLog
+        document.getElementById('fetch-policies-log-btn').addEventListener('click', fetchPoliciesLog);
+    </script>
 </body>
 </html>

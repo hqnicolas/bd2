@@ -32,7 +32,7 @@
                         parameters: [userId]
                     };
                     console.log('Request body:', requestBody);
-                    const response = await fetch('/api/db-control/stored-procedures/execute', {
+                    const response = await fetch('/api/risk-analysis', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -41,7 +41,7 @@
                     });
                     const result = await response.json();
                     if (response.ok) {
-                        document.getElementById('risk-data').innerText = `Número de apólices: ${result[0]}`;
+                        document.getElementById('risk-data').innerText = `Número de apólices: ${result[0].pr_count_apolices}`;
                     } else {
                         alert('Falha ao buscar contagem de apólices.');
                     }
@@ -51,7 +51,36 @@
             } catch (error) {
                 console.error('Erro ao buscar contagem de apólices:', error);
             }
+
+            try {
+                const userId = await fetchUserIdByCpf(cpf);
+                if (userId) {
+                    const requestBody = {
+                        procedureName: 'pr_count_sinistros_cliente',
+                        parameters: [userId]
+                    };
+                    console.log('Request body:', requestBody);
+                    const response = await fetch('/api/risk-analysis', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+                    const result = await response.json();
+                    if (response.ok) {
+                        document.getElementById('sini-data').innerText = `Número de Sinistros: ${result[0].pr_count_sinistros_cliente}`;
+                    } else {
+                        alert('Falha ao buscar contagem de Sinistros.');
+                    }
+                } else {
+                    alert('Falha ao buscar ID do usuário.');
+                }
+            } catch (error) {
+                console.error('Erro ao buscar contagem de Sinistros:', error);
+            }
         }
+
 
         document.addEventListener('DOMContentLoaded', () => {
             const submitButton = document.querySelector('button[type="submit"]');
@@ -63,14 +92,16 @@
     </script>
 </head>
 <body>
-    <h1>Análise de Risco</h1>
+    
     <form>
+        <h1>Análise de Risco</h1>
         <label for="cpf">CPF:</label>
         <input type="text" id="cpf" name="cpf">
         <button type="submit">Submit</button>
+        <div>
+            <p id="risk-data">Número de apólices serão exibidos aqui</p>
+            <p id="sini-data">Número de Sinistros serão exibidos aqui</p>
+        </div>
     </form>
-    <div>
-        <p id="risk-data">Os dados da análise de risco serão exibidos aqui</p>
-    </div>
 </body>
 </html>

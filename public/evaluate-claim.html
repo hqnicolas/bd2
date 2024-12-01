@@ -9,40 +9,107 @@
 <body>
   <div class="container">
     <h1>Painel de Administração</h1>
-    <table>
+    <table id="sinistros-table">
       <thead>
         <tr>
           <th>ID</th>
-          <th>CPF</th>
-          <th>IMEI</th>
+          <th>descrição</th>
           <th>Status</th>
           <th>Ações</th>
         </tr>
       </thead>
-      <tbody>
-    
-        <tr>
-          <td>1</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>
-            <button class="approve">Aprovar</button>
-            <button class="reject">Rejeitar</button>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>
-            <button class="approve">Aprovar</button>
-            <button class="reject">Rejeitar</button>
-          </td>
-        </tr>
+      <tbody id="sinistros-tbody">
       </tbody>
     </table>
   </div>
+
+  <script>
+    // Recupera todos os sinistros com status "Aberto"
+    async function fetchSinistros() {
+  try {
+    const response = await fetch('/sinistros', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!response.ok) {
+      throw new Error(`erro HTTP com status: ${response.status}`);
+    }
+    const sinistros = await response.json();
+    return sinistros;
+  } catch (error) {
+    console.error(error);
+    return []; 
+  }
+}
+
+    // Preenche a tabela
+    async function renderSinistrosTable() {
+      const sinistros = await fetchSinistros();
+      if (sinistros.length === 0) {
+        console.log('No sinistros found');
+        return;
+      }
+      const tbody = document.getElementById('sinistros-tbody');
+      tbody.innerHTML = '';
+
+      sinistros.forEach(sinistro => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${sinistro.id}</td>
+          <td>${sinistro.descricao}</td>
+          <td>${sinistro.status}</td>
+          <td>
+            <button class="approve" data-id="${sinistro.id}">Aprovar</button>
+            <button class="reject" data-id="${sinistro.id}">Rejeitar</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      // Adicione evento que aguarda pelo botão
+      const approveButtons = document.querySelectorAll('.approve');
+      const rejectButtons = document.querySelectorAll('.reject');
+
+      approveButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+          const id = button.getAttribute('data-id');
+          const status = 'Encerrado';
+          const valorIndenizacao = 5000;
+          try {
+            const response = await fetch('/evaluate-claim', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id, status, valor_indenizacao: valorIndenizacao }),
+            });
+            const result = await response.json();
+            console.log(result);
+          } catch (error) {
+            console.error(error);
+          }
+        });
+      });
+
+      rejectButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+          const id = button.getAttribute('data-id');
+          const status = 'Encerrado';
+          const valorIndenizacao = 0;
+          try {
+            const response = await fetch('/evaluate-claim', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id, status, valor_indenizacao: valorIndenizacao }),
+            });
+            const result = await response.json();
+            console.log(result);
+          } catch (error) {
+            console.error(error);
+          }
+        });
+      });
+    }
+
+    renderSinistrosTable();
+  </script>
 </body>
 </html>
