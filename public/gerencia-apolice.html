@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciamento de Apólice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f9f9f9;
+    }
+
+    .policy-management {
+      max-width: 600px;
+      width: 100%;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fff;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input {
+      width: calc(100% - 20px);
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .policy-details {
+      background-color: #f1f1f1;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+
+    .policy-details p {
+      margin: 8px 0;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      background-color: #007bff;
+      cursor: pointer;
+    }
+
+    button.delete-button {
+      background-color: #dc3545;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="policy-management">
+    <h1>Gerenciamento de Apólice</h1>
+    <div class="form-group">
+      <label for="policyNumber">Número da Apólice</label>
+      <input
+        type="text"
+        id="policyNumber"
+        placeholder="Digite o número da apólice"
+      />
+      <button onclick="fetchPolicy()">Buscar Apólice</button>
+    </div>
+    <p id="error" class="error" style="display: none;">Apólice não encontrada.</p>
+    <div id="policyDetails" class="policy-details" style="display: none;">
+      <h2>Detalhes da Apólice</h2>
+      <p><strong>Data de Validade:</strong> <span id="validity"></span></p>
+      <p><strong>Celular Atrelado:</strong> <span id="phone"></span></p>
+      <button onclick="deletePolicy()" class="delete-button">Excluir Apólice</button>
+    </div>
+  </div>
+
+  <script>
+    function fetchPolicy() {
+      const policyNumber = document.getElementById("policyNumber").value;
+      const errorElement = document.getElementById("error");
+      const policyDetails = document.getElementById("policyDetails");
+      const validity = document.getElementById("validity");
+      const phone = document.getElementById("phone");
+
+      errorElement.style.display = "none";
+      policyDetails.style.display = "none";
+
+      if (policyNumber === "123456") {
+        validity.textContent = "31-12-24";
+        phone.textContent = "+55 11 91234-5678";
+        policyDetails.style.display = "block";
+      } else {
+        errorElement.style.display = "block";
+      }
+    }
+
+    function deletePolicy() {
+      if (confirm("Tem certeza de que deseja excluir esta apólice?")) {
+        alert("Apólice excluída com sucesso!");
+        document.getElementById("policyNumber").value = "";
+        document.getElementById("policyDetails").style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
