@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análise de Riscos - Seguradora de Celulares</title>
+  <link rel="stylesheet" href="ra-styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Análise de Risco</h1>
+    <form id="riskAnalysisForm">
+      <label for="policyNumber">Número da Apólice:</label>
+      <input type="text" id="policyNumber" name="policyNumber" placeholder="Digite o número da apólice" required>
+
+      <label for="insuredName">Nome do Segurado:</label>
+      <input type="text" id="insuredName" name="insuredName" placeholder="Digite o nome do segurado" required>
+
+      <label for="phoneModel">Modelo do Celular:</label>
+      <input type="text" id="phoneModel" name="phoneModel" placeholder="Digite o modelo do celular" required>
+
+      <label for="damageReported">Danos Declarados:</label>
+      <textarea id="damageReported" name="damageReported" rows="4" placeholder="Descreva os danos informados pelo segurado" required></textarea>
+
+      <label for="riskLevel">Nível de Risco:</label>
+      <select id="riskLevel" name="riskLevel" required>
+        <option value="" disabled selected>Selecione o nível de risco</option>
+        <option value="baixo">Baixo</option>
+        <option value="moderado">Moderado</option>
+        <option value="alto">Alto</option>
+      </select>
+
+      <label for="premiumAdjustment">Ajuste no Prêmio (R$):</label>
+      <input type="number" id="premiumAdjustment" name="premiumAdjustment" placeholder="Digite o ajuste no prêmio (R$)" required>
+
+      <label for="riskNotes">Observações Adicionais:</label>
+      <textarea id="riskNotes" name="riskNotes" rows="4" placeholder="Digite observações adicionais"></textarea>
+
+      <button type="submit">Salvar Análise</button>
+    </form>
+
+    <h2>Registros de Análise de Risco</h2>
+    <ul id="analysisRecords">
+   
+    </ul>
+  </div>
+
+  <script>
+    const form = document.getElementById('riskAnalysisForm');
+    const analysisRecords = document.getElementById('analysisRecords');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const policyNumber = document.getElementById('policyNumber').value;
+      const insuredName = document.getElementById('insuredName').value;
+      const phoneModel = document.getElementById('phoneModel').value;
+      const damageReported = document.getElementById('damageReported').value;
+      const riskLevel = document.getElementById('riskLevel').value;
+      const premiumAdjustment = document.getElementById('premiumAdjustment').value;
+      const riskNotes = document.getElementById('riskNotes').value;
+
+      const listItem = document.createElement('li');
+      listItem.textContent = `Apólice: ${policyNumber} | Nome: ${insuredName} | Modelo: ${phoneModel} | Danos: ${damageReported} | Risco: ${riskLevel} | Ajuste: R$ ${premiumAdjustment} | Observações: ${riskNotes}`;
+      analysisRecords.appendChild(listItem);
+
+      form.reset();
+    });
+  </script>
+</body>
+</html>
