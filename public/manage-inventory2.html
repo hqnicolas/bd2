@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administração de Inventário</title>
+  <link rel="stylesheet" href="mi-styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Inventário de Celulares</h1>
+    <form id="inventoryForm">
+      <label for="phoneModel">Modelo do Celular:</label>
+      <input type="text" id="phoneModel" name="phoneModel" placeholder="Digite o modelo do celular" required>
+
+      <label for="imeiNumber">Número IMEI:</label>
+      <input type="text" id="imeiNumber" name="imeiNumber" placeholder="Digite o número IMEI" required>
+
+      <label for="phoneStatus">Status:</label>
+      <select id="phoneStatus" name="phoneStatus" required>
+        <option value="" disabled selected>Selecione o status</option>
+        <option value="segurado">Segurado</option>
+        <option value="em-analise">Em Análise</option>
+        <option value="sinistro-confirmado">Sinistro Confirmado</option>
+        <option value="perdido">Perdido</option>
+      </select>
+
+      <label for="observations">Observações:</label>
+      <textarea id="observations" name="observations" rows="4" placeholder="Digite observações adicionais"></textarea>
+
+      <button type="submit">Adicionar ao Inventário</button>
+    </form>
+
+    <h2>Itens do Inventário</h2>
+    <ul id="inventoryList">
+
+    </ul>
+  </div>
+
+  <script>
+    const form = document.getElementById('inventoryForm');
+    const inventoryList = document.getElementById('inventoryList');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const phoneModel = document.getElementById('phoneModel').value;
+      const imeiNumber = document.getElementById('imeiNumber').value;
+      const phoneStatus = document.getElementById('phoneStatus').value;
+      const observations = document.getElementById('observations').value;
+
+      const listItem = document.createElement('li');
+      listItem.textContent = `${phoneModel} (IMEI: ${imeiNumber}) - Status: ${phoneStatus}. Observações: ${observations}`;
+      inventoryList.appendChild(listItem);
+
+      form.reset();
+    });
+  </script>
+</body>
+</html>
