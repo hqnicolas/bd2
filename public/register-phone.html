@@ -39,8 +39,9 @@
         <label for="user_id">ID do usuário que receberá o prêmio:</label>
         <input type="number" id="user_id" name="user_id" required min="0" placeholder="Ex: 2">
 
-        <!-- Botão para enviar -->
+        <!-- Botões para ações -->
         <button type="submit">Registrar</button>
+        <button type="button" id="deleteButton">Excluir</button>
     </form>
     <div id="response"></div>
 
@@ -74,6 +75,34 @@
                 }
             } catch (error) {
                 console.error('Erro na requisição:', error);
+            }
+        });
+
+        document.getElementById('deleteButton').addEventListener('click', async () => {
+            const imei = document.getElementById('phone').value;
+            if (!imei) {
+                alert('Por favor, preencha o número de IMEI antes de excluir.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/delete-phone?imei=${imei}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+                const responseDiv = document.getElementById('response');
+
+                if (response.ok) {
+                    responseDiv.textContent = data.message || 'Telefone excluído com sucesso.';
+                    responseDiv.style.color = 'green';
+                    document.getElementById('phoneForm').reset();
+                } else {
+                    responseDiv.textContent = data.error || 'Erro ao excluir o telefone.';
+                    responseDiv.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Erro na requisição de exclusão:', error);
             }
         });
     </script>

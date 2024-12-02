@@ -14,9 +14,9 @@
             <label for="nome">Nome:</label>
             <input type="text" id="nome" name="nome" required placeholder="Digite seu nome completo">
 
-            <!-- cpf -->
-            <label for="cpf">cpf:</label>
-            <input type="text" id="cpf" name="cpf" required min="11" placeholder="Digite seu CPF">
+            <!-- CPF -->
+            <label for="CPF">CPF:</label>
+            <input type="text" id="CPF" name="CPF" required minlength="11" maxlength="11" placeholder="Digite seu CPF">
 
             <!-- Número de telefone -->
             <label for="telefone">Número de Telefone:</label>
@@ -74,19 +74,21 @@
             <label for="email">E-mail:</label>
             <input type="email" id="email" name="email" required placeholder="Digite seu e-mail">
 
-            <!-- Botão para salvar -->
+            <!-- Botões -->
             <button type="submit">Salvar Alterações</button>
+            <button type="button" id="deleteButton">Excluir</button>
         </form>
         <div id="response"></div>
     </div>
 
     <script>
+        // Função para salvar as alterações no perfil
         document.getElementById('profileForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const profileData = {
                 nome: document.getElementById('nome').value,
-                cpf: document.getElementById('cpf').value,
+                cpf: document.getElementById('CPF').value,
                 email: document.getElementById('email').value,
                 telefone: document.getElementById('telefone').value,
                 endereco: {
@@ -111,9 +113,6 @@
                 if (response.ok) {
                     responseDiv.textContent = data.message;
                     responseDiv.style.color = 'green';
-                    setTimeout(() => {
-                        window.location.href = '/main-menu';
-                    }, 2000);
                 } else {
                     responseDiv.textContent = data.error || 'Erro ao atualizar o perfil.';
                     responseDiv.style.color = 'red';
@@ -122,6 +121,36 @@
                 console.error('Erro na requisição:', error);
             }
         });
+
+        // Função para excluir o perfil
+        document.getElementById('deleteButton').addEventListener('click', async () => {
+            const cpf = document.getElementById('CPF').value;
+            if (!cpf) {
+                alert('Por favor, preencha o CPF antes de excluir o perfil.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/profile?cpf=${cpf}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+                const responseDiv = document.getElementById('response');
+
+                if (response.ok) {
+                    responseDiv.textContent = data.message || 'Perfil excluído com sucesso.';
+                    responseDiv.style.color = 'green';
+                    document.getElementById('profileForm').reset();
+                } else {
+                    responseDiv.textContent = data.error || 'Erro ao excluir o perfil.';
+                    responseDiv.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Erro na requisição de exclusão:', error);
+            }
+        });
     </script>
 </body>
 </html>
+
