@@ -17,7 +17,7 @@ Arquivo fonte: [Modelo Fisico](/DB_DIAGRAM.md).<br>
 
   
 ### Dicionário de Dados
-As informações sobre as tabelas e índices foram documentados na [Tabela](/TABLE.md).
+As informações sobre as tabelas e índices foram documentados na [Tabela](docs/dicionario%20de%20dados%20bd2.xlsx).
 
 ### Scripts SQL
 Para este projeto foi utilizado o banco de dados [Postgress](docker-compose.yml) <br>
