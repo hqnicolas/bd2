@@ -43,4 +43,4 @@ Abaixo, segue os scripts SQL separados por tipo:
 O modelo de negócio está disponível no arquivo [Sobre](ABOUT_US.md).
 
 ### Relatório Final
-O relatório final está disponível no arquivo [descrição do projeto](/ABOUT_PROJECT.md).
+O relatório final está disponível no arquivo [descrição do projeto](/docs/ABOUT_PROJECT.md).
