@@ -13,7 +13,7 @@
 
 ### Modelo Físico
 Utilizamos a ferramenta de modelagem de dados [dbdiagram.io](https://dbdiagram.io/) para criação do modelo físico do banco de dados, para posterior exportação dos scripts DDL das tabelas e relacionamentos.<br>
-Arquivo fonte: [Modelo Fisico](/DB_DIAGRAM.md).<br>
+Arquivo fonte: [Modelo Fisico]([/DB_DIAGRAM.md](https://private-user-images.githubusercontent.com/11825574/389292181-029ee14f-ad71-4f57-ac3b-22e2ec3c1abb.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzMyNzAxNDQsIm5iZiI6MTczMzI2OTg0NCwicGF0aCI6Ii8xMTgyNTU3NC8zODkyOTIxODEtMDI5ZWUxNGYtYWQ3MS00ZjU3LWFjM2ItMjJlMmVjM2MxYWJiLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDEyMDMlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQxMjAzVDIzNTA0NFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTI4ZmIzZjBjYTliODY4NWE2MTg4ZTA1NWQ0ZTA4MjU5MDRmZGYyNDA2YmNlZjU5ZDBlMjkyMTRmNGEyMDEwMGQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.ed6LfvpZUfMHUYpaw2-FMuimZ2wzk56EOvLP6Rn-wgk)).<br>
 
   
 ### Dicionário de Dados
