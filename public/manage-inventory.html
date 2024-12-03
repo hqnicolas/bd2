@@ -1,84 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciar inventário</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administração de Inventário</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Gerenciar inventário</h1>
-    <h2>Estoque de Peças</h2>
-    <ul id="inventory-list">
-        <!-- Os itens do inventário serão listados aqui -->
-    </ul>
+  <div class="container">
+    <h1>Inventário de Celulares</h1>
+    <form id="inventoryForm">
+      <label for="phoneModel">Modelo do Celular:</label>
+      <input type="text" id="phoneModel" name="phoneModel" placeholder="Digite o modelo do celular" required>
 
-    <h2>Entradas de Peças</h2>
-    <ul id="entries-list">
-        <!-- Os itens das inscrições serão listados aqui -->
-    </ul>
+      <label for="imeiNumber">Número IMEI:</label>
+      <input type="text" id="imeiNumber" name="imeiNumber" placeholder="Digite o número IMEI" required>
 
-    <h2>Saídas de Peças</h2>
-    <ul id="exits-list">
-       <!-- Os itens de saída serão listados aqui -->
-    </ul>
+      <label for="phoneStatus">Status:</label>
+      <select id="phoneStatus" name="phoneStatus" required>
+        <option value="" disabled selected>Selecione o status</option>
+        <option value="segurado">Segurado</option>
+        <option value="em-analise">Em Análise</option>
+        <option value="sinistro-confirmado">Sinistro Confirmado</option>
+        <option value="perdido">Perdido</option>
+      </select>
 
-    <script>
-        async function fetchInventory() {
-            try {
-                const response = await fetch('/api/inventory');
-                const data = await response.json();
-                const inventoryList = document.getElementById('inventory-list');
-                inventoryList.innerHTML = ''; 
-                data.forEach(item => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<strong>${item.nome_peca}</strong> - Quantidade: ${item.quantidade}, Nível Crítico: ${item.level_critico}, Valor Unitário: R$ ${item.valor_unitario.toFixed(2)}`;
-                    inventoryList.appendChild(li);
-                });
-            } catch (error) {
-                console.error('Erro ao buscar o inventário:', error);
-            }
+      <label for="observations">Observações:</label>
+      <textarea id="observations" name="observations" rows="4" placeholder="Digite observações adicionais"></textarea>
+
+      <button type="submit">Adicionar ao Inventário</button>
+    </form>
+
+    <h2>Itens do Inventário</h2>
+    <ul id="inventoryList"></ul>
+  </div>
+
+  <script>
+    const form = document.getElementById('inventoryForm');
+    const inventoryList = document.getElementById('inventoryList');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const phoneModel = document.getElementById('phoneModel').value;
+      const imeiNumber = document.getElementById('imeiNumber').value;
+      const phoneStatus = document.getElementById('phoneStatus').value;
+      const observations = document.getElementById('observations').value;
+
+      try {
+        const response = await fetch('/api/inventory/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phoneModel, imeiNumber, phoneStatus, observations })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          const listItem = document.createElement('li');
+          listItem.textContent = `${phoneModel} (IMEI: ${imeiNumber}) - Status: ${phoneStatus}. Observações: ${observations}`;
+          inventoryList.appendChild(listItem);
+          form.reset();
+        } else {
+          alert(result.error || 'Erro ao adicionar ao inventário.');
         }
+      } catch (error) {
+        console.error('Erro na requisição:', error);
+        alert('Erro ao adicionar ao inventário.');
+      }
+    });
 
-        async function fetchEntries() {
-            try {
-                const response = await fetch('/api/inventory/entries');
-                const data = await response.json();
-                const entriesList = document.getElementById('entries-list');
-                entriesList.innerHTML = '';
-
-                data.forEach(item => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `ID: ${item.id} - Data de Entrada: ${item.data_entrada}, Quantidade: ${item.quantidade}, Estoque Peça ID: ${item.estoque_peca_id}`;
-                    entriesList.appendChild(li);
-                });
-            } catch (error) {
-                console.error('Erro ao buscar as entradas:', error);
-            }
+    // Fetch inventory data on page load
+    window.addEventListener('load', async () => {
+      try {
+        const response = await fetch('/api/inventory');
+        const items = await response.json();
+        if (response.ok) {
+          items.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${item.nome_peca} (IMEI: ${item.imeiNumber}) - Status: ${item.phoneStatus}. Observações: ${item.observations}`;
+            inventoryList.appendChild(listItem);
+          });
+        } else {
+          alert('Erro ao carregar o inventário.');
         }
-
-        async function fetchExits() {
-            try {
-                const response = await fetch('/api/inventory/exits');
-                const data = await response.json();
-                const exitsList = document.getElementById('exits-list');
-                exitsList.innerHTML = '';
-
-                data.forEach(item => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `ID: ${item.id} - Data de Saída: ${item.data_saida}, Quantidade: ${item.quantidade}, Estoque Peça ID: ${item.estoque_peca_id}`;
-                    exitsList.appendChild(li);
-                });
-            } catch (error) {
-                console.error('Erro ao buscar as saídas:', error);
-            }
-        }
-
-        window.onload = () => {
-            fetchInventory();
-            fetchEntries();
-            fetchExits();
-        };
-    </script>
+      } catch (error) {
+        console.error('Erro ao carregar o inventário:', error);
+        alert('Erro ao carregar o inventário.');
+      }
+    });
+  </script>
 </body>
 </html>

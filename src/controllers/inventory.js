@@ -1,4 +1,3 @@
-// src/controllers/inventory.js
 const executeSql = require('../utils/executeSql');
 const logger = require('../utils/logger');
 
@@ -38,8 +37,23 @@ const getExits = async (req, res) => {
   }
 };
 
+const addInventoryItem = async (req, res) => {
+  const { phoneModel, imeiNumber, phoneStatus, observations } = req.body;
+  const query = 'INSERT INTO estoque_pecas (nome_peca, imei_number, phone_status, observations) VALUES ($1, $2, $3, $4) RETURNING *';
+  const values = [phoneModel, imeiNumber, phoneStatus, observations];
+  try {
+    const result = await executeSql(query, values);
+    logger.info('Item adicionado ao inventário com sucesso');
+    res.json(result[0]);
+  } catch (err) {
+    logger.error(`Erro ao adicionar item ao inventário: ${err.stack}`);
+    res.status(500).json({ error: 'Erro interno do backend' });
+  }
+};
+
 module.exports = {
   getInventory,
   getEntries,
   getExits,
+  addInventoryItem,
 };

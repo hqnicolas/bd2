@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Análise de Riscos - Seguradora de Celulares</title>
-  <link rel="stylesheet" href="ra-styles.css">
+  <title>Análise de Risco - Seguradora de Celulares</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
@@ -40,16 +40,14 @@
     </form>
 
     <h2>Registros de Análise de Risco</h2>
-    <ul id="analysisRecords">
-   
-    </ul>
+    <ul id="analysisRecords"></ul>
   </div>
 
   <script>
     const form = document.getElementById('riskAnalysisForm');
     const analysisRecords = document.getElementById('analysisRecords');
 
-    form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
 
       const policyNumber = document.getElementById('policyNumber').value;
@@ -60,11 +58,46 @@
       const premiumAdjustment = document.getElementById('premiumAdjustment').value;
       const riskNotes = document.getElementById('riskNotes').value;
 
-      const listItem = document.createElement('li');
-      listItem.textContent = `Apólice: ${policyNumber} | Nome: ${insuredName} | Modelo: ${phoneModel} | Danos: ${damageReported} | Risco: ${riskLevel} | Ajuste: R$ ${premiumAdjustment} | Observações: ${riskNotes}`;
-      analysisRecords.appendChild(listItem);
+      try {
+        const response = await fetch('/api/risk-analysis/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ policyNumber, insuredName, phoneModel, damageReported, riskLevel, premiumAdjustment, riskNotes })
+        });
 
-      form.reset();
+        const result = await response.json();
+        if (response.ok) {
+          const listItem = document.createElement('li');
+          listItem.textContent = `Apólice: ${policyNumber} | Nome: ${insuredName} | Modelo: ${phoneModel} | Danos: ${damageReported} | Risco: ${riskLevel} | Ajuste: R$ ${premiumAdjustment} | Observações: ${riskNotes}`;
+          analysisRecords.appendChild(listItem);
+          form.reset();
+        } else {
+          alert(result.error || 'Erro ao salvar a análise.');
+        }
+      } catch (error) {
+        console.error('Erro na requisição:', error);
+        alert('Erro ao salvar a análise.');
+      }
+    });
+
+    // Fetch risk analysis data on page load
+    window.addEventListener('load', async () => {
+      try {
+        const response = await fetch('/api/risk-analysis');
+        const records = await response.json();
+        if (response.ok) {
+          records.forEach(record => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `Apólice: ${record.policyNumber} | Nome: ${record.insuredName} | Modelo: ${record.phoneModel} | Danos: ${record.damageReported} | Risco: ${record.riskLevel} | Ajuste: R$ ${record.premiumAdjustment} | Observações: ${record.riskNotes}`;
+            analysisRecords.appendChild(listItem);
+          });
+        } else {
+          alert('Erro ao carregar o histórico de análise de risco.');
+        }
+      } catch (error) {
+        console.error('Erro ao carregar o histórico de análise de risco:', error);
+        alert('Erro ao carregar o histórico de análise de risco.');
+      }
     });
   </script>
 </body>

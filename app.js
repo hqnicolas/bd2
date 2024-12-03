@@ -4,6 +4,7 @@ const session = require('express-session');
 const logger = require('./src/utils/logger');
 const dbControlRoutes = require('./src/routes/db-control');
 const inventoryRoutes = require('./src/routes/inventory');
+const riskAnalysisRoutes = require('./src/routes/risk-analysis');
 const initDatabase = require('./src/utils/initDatabase');
 const executeSql = require('./src/utils/executeSql');
 const checkDatabaseInitialized = require('./src/utils/initDatabase');
@@ -44,6 +45,7 @@ app.use(middleware2);
 // Rotas da API
 app.use('/api/db-control', dbControlRoutes);
 app.use('/api/inventory', inventoryRoutes);
+app.use('/api/risk-analysis', riskAnalysisRoutes);
 
 // Rotas para servir arquivos HTML
 app.get('/register', (req, res) => {
@@ -84,6 +86,15 @@ app.get('/manage-inventory', (req, res) => {
 
 app.get('/risk-analysis', (req, res) => {
   res.sendFile('risk-analysis.html', { root: 'public' });
+});
+
+// Add the new routes
+app.get('/risk-profile', (req, res) => {
+  res.sendFile('risk-profile.html', { root: 'public' });
+});
+
+app.get('/manage-inventory', (req, res) => {
+  res.sendFile('manage-inventory.html', { root: 'public' });
 });
 
 // Rota para excluir uma apólice
