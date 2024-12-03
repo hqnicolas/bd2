@@ -40,7 +40,7 @@ Abaixo, segue os scripts SQL separados por tipo:
 [Codigo Fonte](fonte/)
 
 ### Modelo de negócio
-O modelo de negócio está disponível no arquivo [Sobre](ABOUT_US.md).
+O modelo de negócio está disponível no arquivo [Sobre](docs/BUSINESS.md).
 
 ### Relatório Final
 O relatório final está disponível no arquivo [descrição do projeto](/docs/ABOUT_PROJECT.md).
