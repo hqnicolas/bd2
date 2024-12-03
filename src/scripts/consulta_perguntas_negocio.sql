@@ -58,7 +58,7 @@ SELECT
     a.numero AS apolice_numero, 
     a.data_validade
 FROM 
-    clientes c
+    clients c
 JOIN 
     apolices a ON c.id = a.cliente_id
 WHERE 
@@ -67,3 +67,14 @@ WHERE
         EXTRACT(YEAR FROM a.data_validade) = EXTRACT(YEAR FROM CURRENT_DATE)
         AND EXTRACT(MONTH FROM a.data_validade) = EXTRACT(MONTH FROM CURRENT_DATE)
     ); -- Expiram no mês vigente
+    
+    
+    
+    
+    --Qual o período médio (em dias) de vigência das apólices excluídas no último ano?
+SELECT
+AVG((data_validade - data_emissao)) AS periodo_medio_vigencia
+FROM
+ApoliceLog
+WHERE
+deleted_date BETWEEN CURRENT_DATE - INTERVAL '1 year' AND CURRENT_DATE;
