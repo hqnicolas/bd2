@@ -78,3 +78,14 @@ FROM
 ApoliceLog
 WHERE
 deleted_date BETWEEN CURRENT_DATE - INTERVAL '1 year' AND CURRENT_DATE;
+
+
+
+--Consulta: Quais são os 10 clientes com maior número de apólices ativas?
+select c.nome AS cliente, COUNT(a.id) AS total_apolices
+from 
+clients c join apolices a ON c.id = a.cliente_id
+where 
+a.data_validade >= CURRENT_DATE GROUP by c.nome 
+ORDER by total_apolices DESC
+LIMIT 10;
