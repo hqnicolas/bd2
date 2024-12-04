@@ -37,7 +37,7 @@ Abaixo, segue os scripts SQL separados por tipo:
 - Projeto 
 - Biblioteca (nativo)
 
-[Codigo Fonte](fonte/)
+[Codigo Fonte](/app.js)
 
 ### Modelo de negócio
 O modelo de negócio está disponível no arquivo [Sobre](docs/BUSINESS.md).
