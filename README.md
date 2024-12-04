@@ -13,7 +13,7 @@
 
 ### Modelo Físico
 Utilizamos a ferramenta de modelagem de dados [dbdiagram.io](https://dbdiagram.io/) para criação do modelo físico do banco de dados, para posterior exportação dos scripts DDL das tabelas e relacionamentos.<br>
-Arquivo fonte: [Modelo Fisico](/docs/389292181-029ee14f-ad71-4f57-ac3b-22e2ec3c1abb.png).<br>
+Arquivo fonte: [Modelo Fisico](/docs/fisico.png).<br>
 
   
 ### Dicionário de Dados
