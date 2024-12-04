@@ -32,10 +32,10 @@ Abaixo, segue os scripts SQL separados por tipo:
 + Functions [functions.sql](/src/scripts/functions.sql)
 
 ### Código Fonte do CRUD
-- Linguagem de Programação <br>
-- Framework
-- Projeto 
-- Biblioteca (nativo)
+- Linguagem de Programação: NodeJS <br>
+- Framework: Express
+- Projeto: JavaScript vanilla
+- Biblioteca: Node postgress SQL
 
 [Codigo Fonte](/app.js)
 
